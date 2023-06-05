@@ -1,0 +1,9 @@
+-- CreateTable
+CREATE TABLE "prduct" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "name" TEXT NOT NULL,
+    "quantity" INTEGER NOT NULL,
+    "value" REAL NOT NULL,
+    "createAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "modifiedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
