@@ -1,25 +1,16 @@
 import fastify from 'fastify';
-import { PrismaClient } from '@prisma/client';
+import cors from "@fastify/cors";
+import { productsRoutes } from './routes/products';
 
 const app = fastify();
-const prisma = new PrismaClient();
+
+app.register(cors, {
+    origin: true,
+})
+app.register(productsRoutes)
 
 app.listen({
     port: 3333,
     }).then(() => {
         console.log("HTTP server running on http://localhost:3333");
 }); 
-
-app.get('/products', async () => {
-    const products = await prisma.prduct.findMany();
-    return products;
-});
-
-
-/*
-* GET -> Listar
-* POST -> Criar
-* PUT -> Atualizar
-* PATCH -> Atualizar variavel especifica
-* DELETE -> Deletar
-*/
