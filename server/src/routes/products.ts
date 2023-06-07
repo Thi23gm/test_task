@@ -1,14 +1,15 @@
 import { FastifyInstance } from "fastify";
-import {prisma} from "../lib/prisma";
+import { prisma } from "../lib/prisma";
 import { z } from "zod";
 
+// Definição de um esquema para números inteiros ou float
 const numberOrFloat = z.number().refine((value) => {
     return Number.isInteger(value) || typeof value === "number";
 }, "Must be a number or float");
 
 export async function productsRoutes(app: FastifyInstance){
 
-    // LISTAR
+    // ROTA PARA LISTAR PRODUTOS
     app.get('/products', async () => {
         const products = await prisma.prduct.findMany({
             orderBy: {
@@ -19,7 +20,7 @@ export async function productsRoutes(app: FastifyInstance){
     });
 
 
-    // DELETE
+    // ROTA PARA DELETAR PRODUTO
     app.delete('/products/:id', async (request) => {
         const parseSchema = z.object({
             id: z.string().uuid(),
@@ -35,7 +36,7 @@ export async function productsRoutes(app: FastifyInstance){
     });
 
 
-    // UPDATE
+    // ROTA PARA ATUALIZAR PRODUTO
     app.put('/products/:id', async (request) => {
 
         const parseSchema = z.object({
@@ -68,7 +69,7 @@ export async function productsRoutes(app: FastifyInstance){
     });
 
 
-    // CREATE
+    // ROTA PARA CRIAR PRODUTO
     app.post('/products', async (request) => {
         const bodySchema = z.object({
             quantity: z.number().int(),
@@ -78,7 +79,7 @@ export async function productsRoutes(app: FastifyInstance){
 
         const {quantity, name, value} = bodySchema.parse(request.body);
 
-        const poduct = await prisma.prduct.create({
+        const product = await prisma.prduct.create({
             data: {
                 quantity, 
                 name,
@@ -86,7 +87,7 @@ export async function productsRoutes(app: FastifyInstance){
             }
         })
 
-        return poduct;
+        return product;
     });
 }
 
@@ -94,6 +95,6 @@ export async function productsRoutes(app: FastifyInstance){
 * GET -> Listar
 * POST -> Criar
 * PUT -> Atualizar
-* PATCH -> Atualizar variavel especifica
+* PATCH -> Atualizar variável específica
 * DELETE -> Deletar
 */

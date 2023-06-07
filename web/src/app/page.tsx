@@ -1,16 +1,21 @@
-import { Table } from './components/Table'
-import Link from 'next/link'
+import { api } from './lib/api'
+import Table from './components/Table'
 
-export default function Home() {
+interface Product{
+  id: string
+  name: string
+  value: number
+  quantity: number
+  createAt: string
+  modifiedAt: string
+}
+
+export default async function Home() {
+
+  const response = await api.get('/products')
+  const products: Product[] = response.data
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="container mx-auto">
-        <div className="flex justify-between items-center mb-4">
-          <h1 className="text-2xl font-bold">Tabela de Produtos</h1>
-          <Link href="/new"><button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Inserir</button></Link>
-        </div>
-        <Table></Table>
-      </div>
-    </main>
+    <Table products={products}></Table>
   )
 }

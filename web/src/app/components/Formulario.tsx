@@ -27,6 +27,7 @@ export function Formulario(){
     });
 
     router.push('/')
+    router.refresh()
   }
 
     return(
